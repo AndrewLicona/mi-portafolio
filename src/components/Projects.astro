@@ -1,0 +1,42 @@
+---
+import { projects } from "../data/projects.js";
+import { Image } from 'astro:assets';
+import Icon from "./Icon.astro";
+---
+
+<section id="proyectos" class="section">
+  <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center text-accent p-10">Proyectos</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {projects.map(project => (
+      <div class="card flex flex-col">
+        <img src={project.imageUrl} alt={`Imagen del proyecto ${project.name}`} class="rounded-t-lg object-cover w-full h-48"/>
+        <div class="p-6 flex flex-col grow">
+          <h3 class="text-xl font-bold mb-2 text-text-strong">{project.name}</h3>
+          <p class="text-text-base mb-4 grow">{project.description}</p>
+          
+          <div class="flex flex-wrap gap-2 mb-4">
+            {project.technologies.map(tech => (
+              <span class="px-2 py-1 bg-base-dark text-xs font-semibold rounded-full text-accent">
+                {tech}
+              </span>
+            ))}
+          </div>
+          
+          <div class="flex items-center gap-4 mt-auto">
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover-accent transition-colors">
+              <Icon name="github" class="w-5 h-5" />
+              GitHub
+            </a>
+            {project.demoUrl && (
+              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                <Icon name="external-link" class="w-5 h-5" />
+                Ver Demo
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

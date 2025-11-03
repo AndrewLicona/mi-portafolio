@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+:root {
+  /* Colores para MODO OSCURO (default) */
+  --color-base: #0a0f1a;
+  --color-base-light: #1f2937;
+  --color-base-dark: #030712;
+
+  --color-text-base: #e5e7eb;
+  --color-text-muted: #9ca3af;
+  --color-text-strong: #f9fafb;
+
+  /* Colores para MODO CLARO */
+  --color-base-light-mode: #f9fafb;
+  --color-base-light-mode-light: #ffffff;
+  --color-base-light-mode-dark: #e5e7eb;
+
+  --color-text-light-mode-base: #1f2937;
+  --color-text-light-mode-muted: #6b7280;
+  --color-text-light-mode-strong: #111827;
+
+  /* Colores de acento */
+  --color-accent-blue: #3b82f6;
+  --color-accent-purple: #8b5cf6;
+  --color-accent-green: #10b981;
+  --color-accent-silver: #64748b;
+
+  /* Color de acento activo (default: azul) */
+  --accent-color: var(--color-accent-blue);
+}
+
+/* ========================================
+   MODO CLARO
+======================================== */
+.light-mode {
+  --color-base: var(--color-base-light-mode);
+  --color-base-light: var(--color-base-light-mode-light);
+  --color-base-dark: var(--color-base-light-mode-dark);
+
+  --color-text-base: var(--color-text-light-mode-base);
+  --color-text-muted: var(--color-text-light-mode-muted);
+  --color-text-strong: var(--color-text-light-mode-strong);
+}
+
+/* ========================================
+   TEMAS DE COLOR
+======================================== */
+.theme-blue {
+  --accent-color: var(--color-accent-blue);
+}
+
+.theme-purple {
+  --accent-color: var(--color-accent-purple);
+}
+
+.theme-green {
+  --accent-color: var(--color-accent-green);
+}
+
+.theme-silver {
+  --accent-color: var(--color-accent-silver);
+}
+
+/* ========================================
+   ESTILOS BASE
+======================================== */
+body {
+  background-color: var(--color-base);
+  color: var(--color-text-base);
+  font-family: "Inter", "Poppins", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-strong);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* ========================================
+   FONDOS CON GRADIENTES
+======================================== */
+
+/* Gradiente Radial Sutil */
+.bg-gradient-radial {
+  background: 
+    radial-gradient(circle at 20% 30%, var(--accent-color) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, var(--accent-color) 0%, transparent 30%),
+    var(--color-base);
+  position: relative;
+}
+
+.bg-gradient-radial::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, var(--accent-color) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, var(--accent-color) 0%, transparent 30%);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* Gradiente Lineal */
+.bg-gradient-linear {
+  background: linear-gradient(
+    135deg,
+    var(--color-base) 0%,
+    color-mix(in srgb, var(--accent-color) 8%, var(--color-base)) 50%,
+    var(--color-base) 100%
+  );
+}
+
+/* Mesh Gradient / Aurora */
+.bg-gradient-mesh {
+  background: 
+    radial-gradient(at 0% 0%, color-mix(in srgb, var(--accent-color) 15%, transparent) 0%, transparent 50%),
+    radial-gradient(at 100% 0%, color-mix(in srgb, var(--accent-color) 12%, transparent) 0%, transparent 50%),
+    radial-gradient(at 100% 100%, color-mix(in srgb, var(--accent-color) 15%, transparent) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, color-mix(in srgb, var(--accent-color) 12%, transparent) 0%, transparent 50%),
+    var(--color-base);
+}
+
+/* Gradiente Simple (top to bottom) */
+.bg-gradient-simple {
+  background: linear-gradient(
+    to bottom,
+    var(--color-base) 0%,
+    var(--color-base-dark) 100%
+  );
+}
+
+/* ========================================
+   COMPONENTES REUTILIZABLES
+======================================== */
+
+/* Sección contenedor */
+.section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--accent-color);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--color-text-muted);
+  color: var(--color-text-base);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-base-light);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 10%, transparent);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  border-color: var(--accent-color);
+}
+
+/* Modo claro: sombras más suaves */
+.light-mode .card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.light-mode .card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ========================================
+   UTILIDADES DE COLOR
+======================================== */
+
+.text-accent {
+  color: var(--accent-color);
+}
+
+.bg-accent {
+  background-color: var(--accent-color);
+}
+
+.border-accent {
+  border-color: var(--accent-color);
+}
+
+.hover-accent {
+  transition: color 0.3s ease;
+}
+
+.hover-accent:hover {
+  color: var(--accent-color);
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   SCROLLBAR PERSONALIZADA
+======================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-base-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color);
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.8;
+}
+
+/* ========================================
+   SELECTION
+======================================== */
+
+::selection {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+/* ========================================
+   FOCUS (Accesibilidad)
+======================================== */
+
+*:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}

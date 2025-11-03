@@ -1,0 +1,123 @@
+---
+import Icon from "./Icon.astro";
+// src/components/Contact.astro
+---
+
+<footer id="contacto" class="bg-base-dark py-20">
+  <div class="section text-center">
+    <h2 class="text-3xl font-bold mb-8 text-accent p-5">¿Colaboramos? Escríbeme 👇</h2>
+    <p class="text-lg text-text-muted max-w-2xl mx-auto">
+      Estoy disponible para oportunidades de trabajo y proyectos freelance. Rellena el formulario o contáctame por mis redes.
+    </p>
+
+    <!-- Formulario de Contacto -->
+    <form id="contact-form" class="max-w-xl mx-auto text-left">
+      <div class="mb-4">
+        <label for="name" class="block text-text-base font-medium mb-2">Nombre</label>
+        <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-md bg-base-light border border-base-dark focus:ring-2 focus:ring-accent focus:outline-none transition-colors">
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-text-base font-medium mb-2">Correo Electrónico</label>
+        <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-md bg-base-light border border-base-dark focus:ring-2 focus:ring-accent focus:outline-none transition-colors">
+      </div>
+
+      <div class="mb-6">
+        <label for="message" class="block text-text-base font-medium mb-2">Mensaje</label>
+        <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 rounded-md bg-base-light border border-base-dark focus:ring-2 focus:ring-accent focus:outline-none transition-colors"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" id="submit-btn" class="btn btn-primary w-full md:w-auto">Enviar Mensaje</button>
+      </div>
+    </form>
+
+    <!-- Redes Sociales -->
+    <div class="flex justify-center items-center gap-6 mt-12">
+      <a href="mailto:andrewlicona70@gmail.com" class="hover-accent transition-colors text-text-base">
+        <Icon name="email" class="w-6 h-6" />
+      </a>
+      <a href="https://linkedin.com/in/andrewlicona" target="_blank" rel="noopener noreferrer" class="hover-accent transition-colors text-text-base">
+        <Icon name="linkedin" class="w-6 h-6" />
+      </a>
+      <a href="https://github.com/andrewlicona" target="_blank" rel="noopener noreferrer" class="hover-accent transition-colors text-text-base">
+        <Icon name="github" class="w-6 h-6" />
+      </a>
+    </div>
+
+    <div class="border-t border-base-light pt-6 mt-12 text-sm text-text-muted">
+      <p>&copy; {new Date().getFullYear()} Andrew Licona. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal de Agradecimiento -->
+<div id="thank-you-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 items-center justify-center p-4 hidden">
+  <div class="bg-base-light rounded-lg shadow-xl p-8 max-w-sm text-center">
+    <h3 class="text-2xl font-bold text-accent mb-4">¡Gracias!</h3>
+    <p class="text-text-base mb-6">Tu mensaje ha sido enviado. Te responderé lo antes posible.</p>
+    <button id="close-modal-btn" class="btn btn-primary">Cerrar</button>
+  </div>
+</div>
+
+<script>
+  // Asegurarnos de que los elementos existen antes de usarlos
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+  const modal = document.getElementById('thank-you-modal');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+
+  // Verificar que todos los elementos existen antes de agregar event listeners
+  if (form && submitBtn && modal && closeModalBtn) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const originalBtnText = submitBtn.textContent || 'Enviar Mensaje';
+      
+      // Actualizar el estado del botón
+      submitBtn.textContent = 'Enviando...';
+      submitBtn.setAttribute('disabled', 'true');
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/andrewlicona70@gmail.com', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          modal.classList.remove('hidden');
+          form.reset();
+        } else {
+          // Manejar errores del servidor
+          alert('Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+        }
+      } catch (error) {
+        // Manejar errores de red
+        console.error('Error de red:', error);
+        alert('Hubo un problema de conexión. Por favor, revisa tu conexión a internet.');
+      } finally {
+        // Restaurar el botón
+        submitBtn.textContent = originalBtnText;
+        submitBtn.removeAttribute('disabled');
+      }
+    });
+
+    // Cerrar modal con el botón
+    closeModalBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+
+    // Cerrar modal al hacer clic fuera
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+      }
+    });
+  } else {
+    console.error('No se encontraron todos los elementos necesarios del formulario');
+  }
+</script>

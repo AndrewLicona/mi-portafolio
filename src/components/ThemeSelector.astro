@@ -1,0 +1,161 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<div class="relative">
+  <!-- Botón principal -->
+  <button 
+    id="theme-dropdown-btn"
+    class="flex items-center gap-2 px-4 py-2 rounded-lg bg-base-light hover:bg-base-dark transition-all text-text-base"
+    aria-label="Seleccionar tema"
+  >
+    <Icon name="palette" class="w-5 h-5" />
+    <span class="text-sm font-medium hidden sm:inline">Tema</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <!-- Dropdown -->
+  <div 
+    id="theme-dropdown"
+    class="hidden absolute right-0 mt-2 w-64 border border-base-dark rounded-lg shadow-xl p-4 z-50"
+    style="background-color: var(--color-base-light);"
+  >
+    <!-- Dark/Light Mode Toggle -->
+    <div class="mb-4 pb-4 border-b border-base-dark">
+      <p class="text-xs text-text-muted mb-3 font-semibold uppercase">Modo</p>
+      <button 
+        id="theme-mode-toggle-dropdown"
+        class="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-base hover:bg-base-dark transition-all"
+      >
+        <div class="flex items-center gap-2">
+          <Icon id="icon-sun-dropdown" name="sun" class="w-5 h-5 text-text-base hidden" />
+          <Icon id="icon-moon-dropdown" name="moon" class="w-5 h-5 text-text-base" />
+          <span id="mode-text" class="text-sm text-text-base">Oscuro</span>
+        </div>
+        <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12M8 12h12m-12 5h12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Color Theme Selector -->
+    <div>
+      <p class="text-xs text-text-muted mb-3 font-semibold uppercase">Color de acento</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button 
+          data-theme="theme-blue"
+          class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+        >
+          <div class="w-6 h-6 rounded-full bg-accent-blue"></div>
+          <span class="text-sm text-text-base">Azul</span>
+        </button>
+
+        <button 
+          data-theme="theme-purple"
+          class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+        >
+          <div class="w-6 h-6 rounded-full bg-accent-purple"></div>
+          <span class="text-sm text-text-base">Morado</span>
+        </button>
+
+        <button 
+          data-theme="theme-green"
+          class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+        >
+          <div class="w-6 h-6 rounded-full bg-accent-green"></div>
+          <span class="text-sm text-text-base">Verde</span>
+        </button>
+
+        <button 
+          data-theme="theme-silver"
+          class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+        >
+          <div class="w-6 h-6 rounded-full bg-accent-silver"></div>
+          <span class="text-sm text-text-base">Plata</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const dropdownBtn = document.getElementById('theme-dropdown-btn');
+  const dropdown = document.getElementById('theme-dropdown');
+  const body = document.body;
+  
+  const themeModeToggle = document.getElementById('theme-mode-toggle-dropdown');
+  const iconSun = document.getElementById('icon-sun-dropdown');
+  const iconMoon = document.getElementById('icon-moon-dropdown');
+  const modeText = document.getElementById('mode-text');
+  
+  const themeOptions = document.querySelectorAll('.theme-option');
+
+  // Cargar preferencias guardadas
+  const savedColorTheme = localStorage.getItem('colorTheme') || 'theme-blue';
+  const savedMode = localStorage.getItem('themeMode') || 'dark';
+
+  // Aplicar tema de color guardado
+  body.classList.add(savedColorTheme);
+
+  // Aplicar modo guardado
+  if (savedMode === 'light') {
+    body.classList.add('light-mode');
+    iconSun?.classList.remove('hidden');
+    iconMoon?.classList.add('hidden');
+    if (modeText) modeText.textContent = 'Claro';
+  }
+
+  // Toggle dropdown
+  dropdownBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown?.classList.toggle('hidden');
+  });
+
+  // Cerrar dropdown al hacer click fuera
+  document.addEventListener('click', (e) => {
+    if (!dropdown?.contains(e.target as Node) && e.target !== dropdownBtn) {
+      dropdown?.classList.add('hidden');
+    }
+  });
+
+  // Toggle Dark/Light Mode
+  themeModeToggle?.addEventListener('click', () => {
+    const isLightMode = body.classList.contains('light-mode');
+    
+    if (isLightMode) {
+      body.classList.remove('light-mode');
+      iconSun?.classList.add('hidden');
+      iconMoon?.classList.remove('hidden');
+      if (modeText) modeText.textContent = 'Oscuro';
+      localStorage.setItem('themeMode', 'dark');
+    } else {
+      body.classList.add('light-mode');
+      iconSun?.classList.remove('hidden');
+      iconMoon?.classList.add('hidden');
+      if (modeText) modeText.textContent = 'Claro';
+      localStorage.setItem('themeMode', 'light');
+    }
+  });
+
+  // Cambio de tema de color
+  themeOptions.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.getAttribute('data-theme');
+      if (!theme) return;
+
+      // Limpiar clases previas
+      body.classList.remove('theme-blue', 'theme-purple', 'theme-green', 'theme-silver');
+      
+      // Aplicar nuevo tema
+      body.classList.add(theme);
+      
+      // Guardar preferencia
+      localStorage.setItem('colorTheme', theme);
+
+      // Cerrar dropdown
+      dropdown?.classList.add('hidden');
+    });
+  });
+</script>

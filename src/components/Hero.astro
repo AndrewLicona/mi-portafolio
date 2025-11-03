@@ -1,0 +1,42 @@
+---
+import Icon from "./Icon.astro";
+---
+<section 
+  id="inicio" 
+  class="bg-gradient-mesh min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 relative overflow-hidden"
+>
+  <div class="fade-in max-w-5xl">
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-text-strong p-5">
+      Hola, soy <span class="text-accent">Andrew Licona</span>
+    </h1>
+    <p class="text-lg md:text-xl lg:text-2xl text-text-muted max-w-3xl mx-auto mb-10 leading-relaxed">
+      Desarrollador en formación apasionado por la creación de software funcional, moderno y accesible.
+    </p>
+
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/cv.pdf" class="btn btn-primary">
+        <Icon name="cv" class="w-5 h-5" />
+        Ver CV
+      </a>
+      <a href="https://github.com/andrewlicona" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+        <Icon name="github" class="w-5 h-5" />
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/andrewliconablanco" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+        <Icon name="linkedin" class="w-5 h-5" />
+        LinkedIn
+      </a>
+    </div>
+  </div>
+
+  <!-- Indicador de scroll -->
+  <a 
+    href="#sobre-mi"
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-50 hover:opacity-100 transition-opacity"
+    aria-label="Ir a sobre mí"
+  >
+    <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </a>
+</section>

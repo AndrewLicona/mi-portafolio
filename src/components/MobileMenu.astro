@@ -1,0 +1,73 @@
+---
+import Icon from "./Icon.astro";
+import { navLinks } from '../data/navLinks.js';
+---
+
+<!-- Botón hamburguesa -->
+<button 
+  id="mobile-menu-btn"
+  class="md:hidden relative flex items-center justify-center w-10 h-10 rounded-lg bg-base-light hover:bg-base-dark transition-all z-60"
+  aria-label="Abrir menú"
+>
+  <Icon name="hamburger" class="open-icon w-6 h-6 text-text-base" />
+  <Icon name="close" class="close-icon w-6 h-6 text-text-base" />
+</button>
+
+<!-- Menú móvil (overlay) -->
+<div 
+  id="mobile-menu"
+  class="fixed inset-0 h-screen hidden z-50"
+  style="background-color: #0a0f1a;"
+>
+  <div class="pt-24 flex flex-col items-center gap-8 px-6">
+    <nav class="flex flex-col items-center gap-8">
+      {navLinks.map(link => (
+        <a 
+          href={link.href} 
+          class="mobile-menu-link text-2xl font-semibold text-text-base hover-accent transition-colors"
+        >
+          {link.text}
+        </a>
+      ))}
+    </nav>
+    <div class="text-text-muted text-sm">Toca cualquier enlace para navegar</div>
+  </div>
+</div>
+
+<style>
+  #mobile-menu-btn .close-icon { display: none; }
+  #mobile-menu-btn.menu-is-open .open-icon { display: none; }
+  #mobile-menu-btn.menu-is-open .close-icon { display: block; }
+</style>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenuBtn.classList.toggle('menu-is-open');
+      mobileMenu.classList.toggle('hidden');
+      const isMenuOpen = !mobileMenu.classList.contains('hidden');
+      document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
+    });
+
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenuBtn.classList.remove('menu-is-open');
+        document.body.style.overflow = 'auto';
+      });
+    });
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) { // md breakpoint
+        mobileMenu.classList.add('hidden');
+        mobileMenuBtn.classList.remove('menu-is-open');
+        document.body.style.overflow = 'auto';
+      }
+    };
+    window.addEventListener('resize', handleResize);
+  }
+</script>

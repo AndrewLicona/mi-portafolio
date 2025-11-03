@@ -1,0 +1,29 @@
+---
+// src/components/About.astro
+---
+
+<section id="sobre-mi" class="section">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+    <!-- Columna de la imagen -->
+    <div class="md:col-span-1 flex justify-center">
+      <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-base-light flex items-center justify-center border-4 border-accent">
+        <span class="text-text-muted">Tu Foto Aquí</span>
+      </div>
+    </div>
+
+    <!-- Columna del texto -->
+    <div class="md:col-span-2">
+      <h2 class="text-3xl md:text-5xl font-bold mb-12 text-accent p-10">Sobre mí</h2>
+      <p class="text-lg md:text-xl text-text-base leading-relaxed">
+        Soy <span class="font-semibold text-text-strong">Andrew Licona</span>, estudiante de Ingeniería de Software apasionado por la
+        tecnología, el desarrollo web y la automatización. Me gusta crear interfaces limpias,
+        funcionales y bien estructuradas.  
+      </p>
+      <p class="text-lg md:text-xl text-text-base leading-relaxed mt-4">
+        Actualmente estoy ampliando mis conocimientos en desarrollo fullstack y herramientas modernas como
+        <span class="font-semibold text-text-strong">Astro</span>, <span class="font-semibold text-text-strong">TailwindCSS</span> y
+        <span class="font-semibold text-text-strong">Node.js</span>.
+      </p>
+    </div>
+  </div>
+</section>
