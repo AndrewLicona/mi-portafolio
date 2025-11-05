@@ -10,7 +10,16 @@ import Icon from "./Icon.astro";
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center px-2">
     {projects.map(project => (
       <div class="card flex flex-col max-w-[450px]">
-        <img src={project.imageUrl} alt={`Imagen del proyecto ${project.name}`} class="rounded-t-lg object-contain w-full h-48"/>
+        <Image 
+          src={project.imageUrl} 
+          alt={`Imagen del proyecto ${project.name}`}
+          class="rounded-t-lg object-cover w-full h-48"
+          loading="lazy"
+          width={450}
+          height={192}
+          format="webp"
+          quality={80}
+        />
         <div class="p-6 flex flex-col grow">
           <h3 class="text-xl font-bold mb-2 text-text-strong p-2">{project.name}</h3>
           <p class="text-text-base mb-4 grow">{project.description}</p>
@@ -21,8 +30,7 @@ import Icon from "./Icon.astro";
                 {tech}
               </span>
             ))}
-          </div>
-          
+          </div>          
           <div class="flex items-center gap-4 mt-auto">
             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover-accent transition-colors">
               <Icon name="github" class="w-5 h-5" />
@@ -32,13 +40,10 @@ import Icon from "./Icon.astro";
               <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
                 <Icon name="external-link" class="w-5 h-5" />
                 Ver 
-              </a>
-              
+              </a> 
             )}
           </div>
-          
-        </div>
-       
+        </div>     
       </div>
     ))}
     

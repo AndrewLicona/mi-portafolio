@@ -12,7 +12,14 @@ import { skills } from "../data/skills.js";
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8 justify-items-center">
         {skills.languages.map(skill => (
           <div class="flex flex-col items-center justify-center gap-4 transition-transform transform hover:scale-110">
-            <img src={skill.imageUrl} alt={`Logo de ${skill.name}`} class="w-16 h-16 object-contain" />
+            <img 
+              src={skill.imageUrl} 
+              alt={`Logo de ${skill.name}`} 
+              width="64"
+              height="64"
+              class="w-16 h-16 object-contain"
+              loading="lazy"
+            />
             <span class="text-sm font-medium text-text-muted">{skill.name}</span>
           </div>
         ))}
@@ -25,7 +32,14 @@ import { skills } from "../data/skills.js";
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8 justify-items-center">
         {skills.tools.map(skill => (
           <div class="flex flex-col items-center justify-center gap-4 transition-transform transform hover:scale-110">
-            <img src={skill.imageUrl} alt={`Logo de ${skill.name}`} class="w-16 h-16 object-contain" />
+            <img 
+              src={skill.imageUrl} 
+              alt={`Logo de ${skill.name}`} 
+              width="64"
+              height="64"
+              class="w-16 h-16 object-contain"
+              loading="lazy"
+            />
             <span class="text-sm font-medium text-text-muted">{skill.name}</span>
           </div>
         ))}
