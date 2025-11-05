@@ -8,6 +8,7 @@ import Icon from "./Icon.astro";
     id="theme-dropdown-btn"
     class="flex items-center gap-2 px-4 py-2 rounded-lg bg-base-light hover:bg-base-dark transition-all text-text-base"
     aria-label="Seleccionar tema"
+    onclick="document.getElementById('theme-dropdown').classList.toggle('hidden')"
   >
     <Icon name="palette" class="w-5 h-5" />
     <span class="text-sm font-medium hidden sm:inline">Tema</span>
@@ -28,6 +29,7 @@ import Icon from "./Icon.astro";
       <button 
         id="theme-mode-toggle-dropdown"
         class="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-base hover:bg-base-dark transition-all"
+        onclick="toggleThemeMode()"
       >
         <div class="flex items-center gap-2">
           <Icon id="icon-sun-dropdown" name="sun" class="w-5 h-5 text-text-base hidden" />
@@ -47,32 +49,36 @@ import Icon from "./Icon.astro";
         <button 
           data-theme="theme-blue"
           class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+          onclick="changeTheme('theme-blue')"
         >
-          <div class="w-6 h-6 rounded-full bg-accent-blue"></div>
+          <div class="w-6 h-6 rounded-full shrink-0" style="background-color: var(--color-accent-blue)"></div>
           <span class="text-sm text-text-base">Azul</span>
         </button>
 
         <button 
           data-theme="theme-purple"
           class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+          onclick="changeTheme('theme-purple')"
         >
-          <div class="w-6 h-6 rounded-full bg-accent-purple"></div>
+          <div class="w-6 h-6 rounded-full shrink-0" style="background-color: var(--color-accent-purple)"></div>
           <span class="text-sm text-text-base">Morado</span>
         </button>
 
         <button 
           data-theme="theme-green"
           class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+          onclick="changeTheme('theme-green')"
         >
-          <div class="w-6 h-6 rounded-full bg-accent-green"></div>
+          <div class="w-6 h-6 rounded-full shrink-0" style="background-color: var(--color-accent-green)"></div>
           <span class="text-sm text-text-base">Verde</span>
         </button>
 
         <button 
           data-theme="theme-silver"
           class="theme-option flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base transition-all"
+          onclick="changeTheme('theme-silver')"
         >
-          <div class="w-6 h-6 rounded-full bg-accent-silver"></div>
+          <div class="w-6 h-6 rounded-full shrink-0" style="background-color: var(--color-accent-silver)"></div>
           <span class="text-sm text-text-base">Plata</span>
         </button>
       </div>
@@ -81,81 +87,75 @@ import Icon from "./Icon.astro";
 </div>
 
 <script>
-  const dropdownBtn = document.getElementById('theme-dropdown-btn');
-  const dropdown = document.getElementById('theme-dropdown');
-  const body = document.body;
-  
-  const themeModeToggle = document.getElementById('theme-mode-toggle-dropdown');
-  const iconSun = document.getElementById('icon-sun-dropdown');
-  const iconMoon = document.getElementById('icon-moon-dropdown');
-  const modeText = document.getElementById('mode-text');
-  
-  const themeOptions = document.querySelectorAll('.theme-option');
-
-  // Cargar preferencias guardadas
-  const savedColorTheme = localStorage.getItem('colorTheme') || 'theme-blue';
-  const savedMode = localStorage.getItem('themeMode') || 'dark';
-
-  // Aplicar tema de color guardado
-  body.classList.add(savedColorTheme);
-
-  // Aplicar modo guardado
-  if (savedMode === 'light') {
-    body.classList.add('light-mode');
-    iconSun?.classList.remove('hidden');
-    iconMoon?.classList.add('hidden');
-    if (modeText) modeText.textContent = 'Claro';
+  // Declaración de tipos para TypeScript
+  declare global {
+    interface Window {
+      toggleThemeMode: () => void;
+      changeTheme: (theme: string) => void;
+    }
   }
 
-  // Toggle dropdown
-  dropdownBtn?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dropdown?.classList.toggle('hidden');
-  });
-
-  // Cerrar dropdown al hacer click fuera
-  document.addEventListener('click', (e) => {
-    if (!dropdown?.contains(e.target as Node) && e.target !== dropdownBtn) {
-      dropdown?.classList.add('hidden');
-    }
-  });
-
-  // Toggle Dark/Light Mode
-  themeModeToggle?.addEventListener('click', () => {
-    const isLightMode = body.classList.contains('light-mode');
+  // Cargar tema guardado al inicio
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('colorTheme') || 'theme-blue';
+    const savedMode = localStorage.getItem('themeMode') || 'dark';
     
-    if (isLightMode) {
-      body.classList.remove('light-mode');
-      iconSun?.classList.add('hidden');
-      iconMoon?.classList.remove('hidden');
-      if (modeText) modeText.textContent = 'Oscuro';
-      localStorage.setItem('themeMode', 'dark');
-    } else {
-      body.classList.add('light-mode');
-      iconSun?.classList.remove('hidden');
-      iconMoon?.classList.add('hidden');
+    // Aplicar tema de color
+    document.body.classList.add(savedTheme);
+    
+    // Aplicar modo claro/oscuro
+    if (savedMode === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('icon-sun-dropdown')?.classList.remove('hidden');
+      document.getElementById('icon-moon-dropdown')?.classList.add('hidden');
+      const modeText = document.getElementById('mode-text');
       if (modeText) modeText.textContent = 'Claro';
-      localStorage.setItem('themeMode', 'light');
     }
   });
 
-  // Cambio de tema de color
-  themeOptions.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const theme = btn.getAttribute('data-theme');
-      if (!theme) return;
-
-      // Limpiar clases previas
-      body.classList.remove('theme-blue', 'theme-purple', 'theme-green', 'theme-silver');
-      
-      // Aplicar nuevo tema
-      body.classList.add(theme);
-      
-      // Guardar preferencia
-      localStorage.setItem('colorTheme', theme);
-
-      // Cerrar dropdown
-      dropdown?.classList.add('hidden');
-    });
+  // Cerrar menú al hacer clic fuera
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('theme-dropdown');
+    const btn = document.getElementById('theme-dropdown-btn');
+    const target = e.target as Node;
+    
+    if (dropdown && btn && !dropdown.contains(target) && !btn.contains(target)) {
+      dropdown.classList.add('hidden');
+    }
   });
+
+  // Función para cambiar entre modo claro/oscuro
+  window.toggleThemeMode = function() {
+    const body = document.body;
+    const isLightMode = body.classList.toggle('light-mode');
+    
+    // Actualizar iconos
+    document.getElementById('icon-sun-dropdown')?.classList.toggle('hidden', !isLightMode);
+    document.getElementById('icon-moon-dropdown')?.classList.toggle('hidden', isLightMode);
+    
+    // Actualizar texto
+    const modeText = document.getElementById('mode-text');
+    if (modeText) {
+      modeText.textContent = isLightMode ? 'Claro' : 'Oscuro';
+    }
+    
+    // Guardar preferencia
+    localStorage.setItem('themeMode', isLightMode ? 'light' : 'dark');
+  };
+
+  // Función para cambiar el tema de color
+  window.changeTheme = function(theme: string) {
+    // Limpiar temas anteriores
+    document.body.classList.remove('theme-blue', 'theme-purple', 'theme-green', 'theme-silver');
+    
+    // Aplicar nuevo tema
+    document.body.classList.add(theme);
+    
+    // Guardar preferencia
+    localStorage.setItem('colorTheme', theme);
+    
+    // Cerrar menú
+    document.getElementById('theme-dropdown')?.classList.add('hidden');
+  };
+</script>
 </script>

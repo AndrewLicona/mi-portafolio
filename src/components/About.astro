@@ -2,8 +2,9 @@
 // src/components/About.astro
 ---
 
-<section id="sobre-mi" class="section">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+<section id="sobre-mi" class=" min-h-screen flex items-center justify-center px-6 relative overflow-hidden py-12"
+>
+  <div class="  grid grid-cols-1 md:grid-cols-3 gap-12 items-center ">
     <!-- Columna de la imagen -->
     <div class="md:col-span-1 flex justify-center">
       <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-base-light flex items-center justify-center border-4 border-accent">
@@ -12,7 +13,7 @@
     </div>
 
     <!-- Columna del texto -->
-    <div class="md:col-span-2">
+    <div class="md:col-span-2 max-w-2xl mx-auto">
       <h2 class="text-3xl md:text-5xl font-bold mb-12 text-accent p-10">Sobre mí</h2>
       <p class="text-lg md:text-xl text-text-base leading-relaxed">
         Soy <span class="font-semibold text-text-strong">Andrew Licona</span>, estudiante de Ingeniería de Software apasionado por la
