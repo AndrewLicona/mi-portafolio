@@ -38,8 +38,7 @@ export interface Props extends HTMLAttributes<'svg'> {
 
 const { name, size = 24, class: className, ...attrs } = Astro.props;
 
-// Some icons are stroke-based, others are fill-based.
-// We define default properties for each and allow them to be overridden.
+
 const icons: Record<IconName, IconProps> = {
   'arrow-right': {
     path: '<path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />',

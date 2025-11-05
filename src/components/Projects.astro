@@ -4,15 +4,15 @@ import { Image } from 'astro:assets';
 import Icon from "./Icon.astro";
 ---
 
-<section id="proyectos" class="bg-gradient-linear min-h-screen justify-center px-6 relative overflow-hidden py-12">
+<section id="proyectos" class="bg-gradient-linear  max-w-screen mx-auto justify-center px-6 relative overflow-hidden py-12">
   <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center text-accent p-10">Proyectos</h2>
   
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center px-2">
     {projects.map(project => (
-      <div class="card flex flex-col">
-        <img src={project.imageUrl} alt={`Imagen del proyecto ${project.name}`} class="rounded-t-lg object-cover w-full h-48"/>
+      <div class="card flex flex-col max-w-[450px]">
+        <img src={project.imageUrl} alt={`Imagen del proyecto ${project.name}`} class="rounded-t-lg object-contain w-full h-48"/>
         <div class="p-6 flex flex-col grow">
-          <h3 class="text-xl font-bold mb-2 text-text-strong">{project.name}</h3>
+          <h3 class="text-xl font-bold mb-2 text-text-strong p-2">{project.name}</h3>
           <p class="text-text-base mb-4 grow">{project.description}</p>
           
           <div class="flex flex-wrap gap-2 mb-4">
@@ -31,12 +31,17 @@ import Icon from "./Icon.astro";
             {project.demoUrl && (
               <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
                 <Icon name="external-link" class="w-5 h-5" />
-                Ver Demo
+                Ver 
               </a>
+              
             )}
           </div>
+          
         </div>
+       
       </div>
     ))}
+    
   </div>
+  <p class="text-text-base mb-4 grow text-center p-6 max-w-2xl mx-auto">Todos los proyecto incluyento el portafolio estan despleglagos en el servidor de mi pc portatil viejo <span class="text-accent"></span></p>
 </section>

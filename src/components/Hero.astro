@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import { redes } from '../data/redes.js';
 ---
 <section 
   id="inicio" 
@@ -10,7 +11,7 @@ import Icon from "./Icon.astro";
       Hola, soy <span class="text-accent">Andrew Licona</span>
     </h1>
     <p class="text-lg md:text-xl lg:text-2xl text-text-muted max-w-3xl mx-auto mb-10 leading-relaxed">
-      Desarrollador en formación apasionado por la creación de software funcional, moderno y accesible.
+      Desarrollador apasionado por la creación de software funcional, moderno y accesible.
     </p>
 
     <div class="flex flex-wrap gap-4 justify-center">
@@ -18,14 +19,17 @@ import Icon from "./Icon.astro";
         <Icon name="cv" class="w-5 h-5" />
         Ver CV
       </a>
-      <a href="https://github.com/andrewlicona" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-        <Icon name="github" class="w-5 h-5" />
-        GitHub
-      </a>
-      <a href="https://linkedin.com/in/andrewliconablanco" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-        <Icon name="linkedin" class="w-5 h-5" />
-        LinkedIn
-      </a>
+      {redes.map(red => (
+        <a 
+          href={red.url} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="btn btn-outline"
+        >
+          <Icon name={red.icon} class="w-5 h-5" />
+          {red.name}
+        </a>
+      ))}
     </div>
   </div>
 
