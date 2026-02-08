@@ -11,9 +11,9 @@ echo "🚀 Deploying mi-portafolio..."
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR" || { echo "❌ Cannot change to script directory"; exit 1; }
 
-# Pull latest changes
-echo "📥 Pulling latest changes..."
-git pull origin main
+# Pull latest changes (optional if GitHub is down)
+echo "📥 Attempting to pull latest changes..."
+git pull origin main || echo "⚠️  Git pull failed, continuing with local files..."
 
 # Check if photo exists
 if [ ! -f "src/assets/fp1.png" ]; then
