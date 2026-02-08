@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # Deploy script for mi-portafolio
-# Run this on the server: ./deploy.sh
+# Run this FROM the project directory: ./deploy.sh
 
 set -e
 
 echo "🚀 Deploying mi-portafolio..."
 
-# Navigate to project directory
-cd ~/mi-portafolio || { echo "❌ Directory ~/mi-portafolio not found"; exit 1; }
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || { echo "❌ Cannot change to script directory"; exit 1; }
 
 # Pull latest changes
 echo "📥 Pulling latest changes..."
