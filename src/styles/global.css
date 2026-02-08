@@ -74,7 +74,12 @@ body {
   padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--color-text-strong);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -97,7 +102,7 @@ a:hover {
 
 /* Gradiente Radial Sutil */
 .bg-gradient-radial {
-  background: 
+  background:
     radial-gradient(circle at 20% 30%, var(--accent-color) 0.2s, transparent 10%),
     radial-gradient(circle at 80% 70%, var(--accent-color) 0%, transparent 30%),
     var(--color-base);
@@ -108,7 +113,7 @@ a:hover {
   content: '';
   position: absolute;
   inset: 0;
-  background: 
+  background:
     radial-gradient(circle at 20% 30%, var(--accent-color) 0%, transparent 50%),
     radial-gradient(circle at 80% 70%, var(--accent-color) 0%, transparent 30%);
   opacity: 0.12;
@@ -117,17 +122,15 @@ a:hover {
 
 /* Gradiente Lineal */
 .bg-gradient-linear {
-  background: linear-gradient(
-    135deg,
-    var(--color-base) 0%,
-    color-mix(in srgb, var(--accent-color) 8%, var(--color-base)) 50%,
-    var(--color-base) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--color-base) 0%,
+      color-mix(in srgb, var(--accent-color) 8%, var(--color-base)) 50%,
+      var(--color-base) 100%);
 }
 
 /* Mesh Gradient / Aurora */
 .bg-gradient-mesh {
-  background: 
+  background:
     radial-gradient(at 0% 0%, color-mix(in srgb, var(--accent-color) 15%, transparent) 0%, transparent 50%),
     radial-gradient(at 100% 0%, color-mix(in srgb, var(--accent-color) 12%, transparent) 0%, transparent 50%),
     radial-gradient(at 100% 100%, color-mix(in srgb, var(--accent-color) 15%, transparent) 0%, transparent 50%),
@@ -137,11 +140,9 @@ a:hover {
 
 /* Gradiente Simple (top to bottom) */
 .bg-gradient-simple {
-  background: linear-gradient(
-    to bottom,
-    var(--color-base) 0%,
-    var(--color-base-dark) 100%
-  );
+  background: linear-gradient(to bottom,
+      var(--color-base) 0%,
+      var(--color-base-dark) 100%);
 }
 
 /* ========================================
@@ -257,6 +258,116 @@ a:hover {
     transform: translateY(0);
   }
 }
+
+/* Animación de deslizamiento desde la izquierda */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: slideInLeft 0.7s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de deslizamiento desde la derecha */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  animation: slideInRight 0.7s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de escala suave */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Efecto de brillo en hover para botones */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Animación de flotación suave */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Efecto de pulso sutil */
+@keyframes pulse-subtle {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Transiciones suaves globales */
+* {
+  transition-property: background-color, color, transform, opacity, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
 
 /* ========================================
    SCROLLBAR PERSONALIZADA

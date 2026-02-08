@@ -1,0 +1,9 @@
+services:
+  portafolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mi-portafolio
+    ports:
+      - "3003:80"
+    restart: unless-stopped

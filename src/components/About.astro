@@ -1,27 +1,45 @@
 ---
 // src/components/About.astro
+import { Image } from "astro:assets";
+import profileImg from "../assets/fp1.png";
 ---
 
-<section id="sobre-mi" class=" min-h-screen flex items-center justify-center px-6 relative overflow-hidden py-12"
+<section
+  id="sobre-mi"
+  class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden py-12"
 >
-  <div class="  grid grid-cols-1 md:grid-cols-3 gap-12 items-center ">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
     <!-- Columna de la imagen -->
     <div class="md:col-span-1 flex justify-center">
-      <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-base-light flex items-center justify-center border-4 border-accent">
-        <span class="text-text-muted">Foto de Andrew Licona</span>
+      <div
+        class="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-accent shadow-lg shadow-accent/20"
+      >
+        <Image
+          src={profileImg}
+          alt="Foto de Andrew Licona"
+          class="w-full h-full object-cover"
+          width={256}
+          height={256}
+          format="webp"
+          quality={90}
+        />
       </div>
     </div>
 
     <!-- Columna del texto -->
     <div class="md:col-span-2 max-w-2xl mx-auto">
-      <h2 class="text-3xl md:text-5xl font-bold mb-12 text-accent p-10">Sobre mí</h2>
+      <h2 class="text-3xl md:text-5xl font-bold mb-12 text-accent p-10">
+        Sobre mí
+      </h2>
       <p class="text-lg md:text-xl text-text-base leading-relaxed">
-        Soy <span class="font-semibold text-text-strong">Andrew Licona</span>, estudiante de Ingeniería de Software apasionado por la
-        tecnología, el desarrollo web , la automatización y análisis de datos. Me gusta crear soluciones innovadoras,
-        funcionales y bien estructuradas.  
+        Soy <span class="font-semibold text-text-strong">Andrew Licona</span>,
+        Ingeniero de Software apasionado por la tecnología, el desarrollo web ,
+        la automatización y análisis de datos. Me gusta crear soluciones
+        innovadoras, funcionales y bien estructuradas.
       </p>
       <p class="text-lg md:text-xl text-text-base leading-relaxed mt-4">
-        Actualmente estoy ampliando mis conocimientos en desarrollo fullstack y herramientas modernas.
+        Actualmente, continúo ampliando mis conocimientos en arquitecturas
+        modernas, mejores prácticas de desarrollo y tecnologías emergentes.
       </p>
     </div>
   </div>

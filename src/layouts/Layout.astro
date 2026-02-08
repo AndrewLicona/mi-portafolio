@@ -1,14 +1,87 @@
 ---
 import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "Portafolio | Andrew Licona",
+  description = "Desarrollador web especializado en crear aplicaciones modernas, funcionales y escalables. Explora mis proyectos en Next.js, Python, Docker y más.",
+  image = "/icon.svg",
+} = Astro.props;
+
+const siteUrl = "https://andrewlamaquina.my";
+const fullImageUrl = new URL(image, siteUrl).href;
 ---
 
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		
-    <title> Portafolio | Andrew Licona</title>
-    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="desarrollador web, software engineer, Next.js, Python, Docker, Astro, TypeScript, portafolio, Andrew Licona"
+    />
+    <meta name="author" content="Andrew Licona" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={fullImageUrl} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Andrew Licona - Portafolio" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={siteUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={fullImageUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Andrew Licona",
+        "url": "https://andrewlamaquina.my",
+        "jobTitle": "Desarrollador de Software",
+        "description": "Estudiante de Ingeniería de Software especializado en desarrollo web fullstack",
+        "sameAs": [
+          "https://github.com/andrewlicona",
+          "https://www.linkedin.com/in/andrewliconablanco"
+        ],
+        "knowsAbout": [
+          "Next.js",
+          "Python",
+          "Docker",
+          "TypeScript",
+          "Linux",
+          "Astro"
+        ],
+        "email": "andrewlicona70@gmail.com"
+      }
+    </script>
   </head>
   <body class="theme-blue">
     <slot />
