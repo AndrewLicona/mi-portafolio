@@ -24,4 +24,4 @@ pnpm-debug.log*
 .idea/
 
 # personal photo (not public)
-src/assets/fp1.png
+# src/assets/fp1.png (Removed to allow build placeholder)
