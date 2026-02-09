@@ -2,8 +2,8 @@
 import pageServerImg from '../assets/page_server.png';
 import dashboardYoutubeImg from '../assets/Dashboard.png';
 // Placeholder: renombra tus capturas como estos nombres y colócalas en src/assets/
-import tiendaVirtualImg from '../assets/ShopyLink.png';
-import controlGastosImg from '../assets/NiddoFlow.png';
+import tiendaVirtualImg from '../assets/Shopylink.png';
+import controlGastosImg from '../assets/Niddoflow.png';
 
 import type { ImageMetadata } from 'astro';
 
@@ -45,8 +45,8 @@ export const projects: Project[] = [
     description: "E-commerce completo con catálogo de productos, carrito de compras, gestión de pedidos y panel de administración.",
     technologies: ["Next.js", "NestJS", "TypeScript", "Prisma", "PostgreSQL"],
     imageUrl: tiendaVirtualImg,
-    githubUrl: "https://github.com/AndrewLicona/ShopyLink.git", 
-    demoUrl: "https://shopylink.andrewlamaquina.my", 
+    githubUrl: "https://github.com/AndrewLicona/ShopyLink.git",
+    demoUrl: "https://shopylink.andrewlamaquina.my",
     status: 'production',
   },
   {
@@ -55,8 +55,8 @@ export const projects: Project[] = [
     description: "Aplicación web para gestionar finanzas personales: registrar ingresos, gastos, y visualizar estadísticas financieras.",
     technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind"],
     imageUrl: controlGastosImg,
-    githubUrl: "https://github.com/AndrewLicona/NiddoFlow.git", 
-    demoUrl: "https://niddoflow.andrewlamaquina.my", 
+    githubUrl: "https://github.com/AndrewLicona/NiddoFlow.git",
+    demoUrl: "https://niddoflow.andrewlamaquina.my",
     status: 'production',
   },
 ];
