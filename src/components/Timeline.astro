@@ -1,0 +1,181 @@
+---
+import { experiences } from "../data/experience";
+---
+
+<section
+  id="experiencia"
+  class="bg-gradient-mesh min-h-screen h-screen flex flex-col justify-center px-4 md:px-12 relative overflow-hidden snap-start"
+>
+  <div class="max-w-7xl mx-auto w-full py-10">
+    <div class="text-center mb-8">
+      <span class="inline-block px-3.5 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent mb-2 border border-accent/20 animate-pulse">
+        Trayectoria Profesional
+      </span>
+      <h2 class="text-3xl md:text-5xl font-extrabold mb-2 text-text-strong tracking-tight">
+        Línea de Tiempo
+      </h2>
+      <p class="text-text-muted max-w-xl mx-auto text-sm md:text-base">
+        Desliza para explorar mi evolución académica y laboral
+      </p>
+    </div>
+
+    <!-- Carrusel Horizontal Container -->
+    <div class="relative max-w-6xl mx-auto">
+      <!-- Botones de navegación horizontal -->
+      <button
+        id="exp-prev"
+        class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-base-light/80 backdrop-blur-xl border border-white/20 items-center justify-center text-text-base hover:text-accent hover:border-accent shadow-2xl transition-all hover:scale-110"
+        aria-label="Anterior experiencia"
+      >
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+
+      <button
+        id="exp-next"
+        class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-base-light/80 backdrop-blur-xl border border-white/20 items-center justify-center text-text-base hover:text-accent hover:border-accent shadow-2xl transition-all hover:scale-110"
+        aria-label="Siguiente experiencia"
+      >
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+
+      <!-- Contenedor scrollable horizontal -->
+      <div
+        id="experience-carousel"
+        class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 px-4 scrollbar-hide items-stretch"
+      >
+        {
+          experiences.map((exp) => (
+            <div class="exp-card flex-shrink-0 w-[85vw] md:w-[340px] snap-center flex flex-col justify-between card p-6 rounded-2xl bg-base-light/80 backdrop-blur-xl border border-white/10 hover:border-accent/60 transition-all duration-500 shadow-xl group">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-accent/15 text-accent uppercase tracking-wider">
+                    {exp.type === 'work' ? 'Experiencia' : 'Educación'}
+                  </span>
+                  <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-base-dark/60 text-accent border border-white/5">
+                    {exp.period}
+                  </span>
+                </div>
+
+                <h3 class="text-lg font-bold text-text-strong mb-1 group-hover:text-accent transition-colors">
+                  {exp.role}
+                </h3>
+                <p class="text-xs font-medium text-text-muted mb-3">
+                  {exp.company}
+                </p>
+
+                <p class="text-text-base text-xs md:text-sm mb-4 leading-relaxed line-clamp-3">
+                  {exp.description}
+                </p>
+              </div>
+
+              <div>
+                <ul class="space-y-1 mb-4">
+                  {exp.highlights.slice(0, 2).map((highlight) => (
+                    <li class="flex items-start gap-2 text-xs text-text-muted">
+                      <svg class="w-3.5 h-3.5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span class="line-clamp-1">{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
+                  {exp.skills.map((skill) => (
+                    <span class="px-2.5 py-0.5 text-[10px] font-medium rounded-md bg-accent/10 text-accent border border-accent/20">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Indicadores de puntos -->
+      <div class="flex justify-center gap-2 mt-4">
+        {
+          experiences.map((_, index) => (
+            <button
+              class="exp-dot w-2.5 h-2.5 rounded-full bg-text-muted/30 hover:bg-accent/60 transition-all"
+              data-index={index}
+              aria-label={`Ir a experiencia ${index + 1}`}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .exp-card {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .exp-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 0 25px -10px var(--accent-color);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .exp-dot.active {
+    background-color: var(--accent-color);
+    width: 2rem;
+  }
+</style>
+
+<script>
+  const expCarousel = document.getElementById("experience-carousel");
+  const expPrev = document.getElementById("exp-prev");
+  const expNext = document.getElementById("exp-next");
+  const expDots = document.querySelectorAll(".exp-dot");
+
+  function getExpScrollAmount() {
+    const card = expCarousel?.querySelector(".exp-card") as HTMLElement;
+    return card ? card.offsetWidth + 24 : 340;
+  }
+
+  function updateExpDots() {
+    if (!expCarousel) return;
+    const scrollLeft = expCarousel.scrollLeft;
+    const scrollAmount = getExpScrollAmount();
+    const activeIndex = Math.round(scrollLeft / scrollAmount);
+
+    expDots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === activeIndex);
+    });
+  }
+
+  expPrev?.addEventListener("click", () => {
+    if (!expCarousel) return;
+    expCarousel.scrollBy({ left: -getExpScrollAmount(), behavior: "smooth" });
+  });
+
+  expNext?.addEventListener("click", () => {
+    if (!expCarousel) return;
+    expCarousel.scrollBy({ left: getExpScrollAmount(), behavior: "smooth" });
+  });
+
+  expDots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      if (-expCarousel) return;
+      expCarousel.scrollTo({ left: index * getExpScrollAmount(), behavior: "smooth" });
+    });
+  });
+
+  expCarousel?.addEventListener("scroll", updateExpDots);
+  updateExpDots();
+</script>

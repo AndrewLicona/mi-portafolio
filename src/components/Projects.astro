@@ -6,135 +6,110 @@ import Icon from "./Icon.astro";
 
 <section
   id="proyectos"
-  class="bg-gradient-linear min-h-screen px-4 md:px-8 py-16 relative overflow-hidden"
+  class="bg-gradient-linear min-h-screen h-screen flex flex-col justify-center px-4 md:px-8 relative overflow-hidden snap-start"
 >
-  <div class="max-w-7xl mx-auto">
-    <h2 class="text-3xl md:text-5xl font-bold mb-4 text-center text-accent">
-      Proyectos
-    </h2>
-    <p class="text-text-muted text-center mb-8 max-w-2xl mx-auto">
-      Desliza para explorar mis proyectos 👆
-    </p>
+  <div class="max-w-7xl mx-auto w-full py-10">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-5xl font-extrabold mb-2 text-accent tracking-tight">
+        Proyectos Destacados
+      </h2>
+      <p class="text-text-muted max-w-xl mx-auto text-sm md:text-base">
+        Desliza o usa las flechas para explorar mis desarrollos recientes
+      </p>
+    </div>
 
     <!-- Carrusel Container -->
-    <div class="relative">
+    <div class="relative max-w-6xl mx-auto">
       <!-- Botones de navegación (desktop) -->
       <button
         id="prev-btn"
-        class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 rounded-full bg-base-light/80 backdrop-blur-sm border border-white/10 items-center justify-center text-text-base hover:text-accent hover:border-accent/50 transition-all"
+        class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-base-light/80 backdrop-blur-xl border border-white/20 items-center justify-center text-text-base hover:text-accent hover:border-accent shadow-2xl transition-all hover:scale-110"
         aria-label="Proyecto anterior"
       >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"></path>
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
       </button>
 
       <button
         id="next-btn"
-        class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 rounded-full bg-base-light/80 backdrop-blur-sm border border-white/10 items-center justify-center text-text-base hover:text-accent hover:border-accent/50 transition-all"
+        class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-base-light/80 backdrop-blur-xl border border-white/20 items-center justify-center text-text-base hover:text-accent hover:border-accent shadow-2xl transition-all hover:scale-110"
         aria-label="Proyecto siguiente"
       >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"></path>
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
         </svg>
       </button>
 
       <!-- Carrusel -->
       <div
         id="projects-carousel"
-        class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 px-2 md:px-8 scrollbar-hide"
+        class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 px-4 scrollbar-hide items-stretch"
       >
         {
           projects.map((project, index) => (
-            <article class="project-card group flex-shrink-0 w-[85vw] md:w-[45%] lg:w-[400px] snap-center relative rounded-2xl overflow-hidden bg-base-light/50 backdrop-blur-sm border border-white/5 hover:border-accent/30 transition-all duration-500">
-              {/* Imagen con overlay */}
-              <div class="relative h-48 md:h-56 overflow-hidden">
-                <Image
-                  src={project.imageUrl}
-                  alt={`Imagen del proyecto ${project.name}`}
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading={index < 2 ? "eager" : "lazy"}
-                  width={500}
-                  height={280}
-                  format="webp"
-                  quality={85}
-                />
-                {/* Overlay gradient */}
-                <div class="absolute inset-0 bg-gradient-to-t from-base-dark/90 via-base-dark/30 to-transparent" />
+            <article class="card flex-shrink-0 w-[85vw] md:w-[420px] snap-center flex flex-col justify-between p-0 overflow-hidden group">
+              <div>
+                {/* Imagen con overlay */}
+                <div class="relative h-48 md:h-52 overflow-hidden bg-base-dark">
+                  <Image
+                    src={project.imageUrl}
+                    alt={`Imagen del proyecto ${project.name}`}
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading={index < 2 ? "eager" : "lazy"}
+                    width={500}
+                    height={260}
+                    format="webp"
+                    quality={85}
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-base-dark/90 via-base-dark/30 to-transparent" />
 
-                {/* Status badge */}
-                {project.status && (
-                  <span
-                    class={`absolute top-3 right-3 px-2.5 py-1 text-xs font-semibold rounded-full backdrop-blur-md ${
-                      project.status === "production"
-                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                        : project.status === "development"
-                          ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                          : "bg-gray-500/20 text-gray-400 border border-gray-500/30"
-                    }`}
-                  >
-                    {project.status === "production"
-                      ? "● Live"
-                      : project.status === "development"
-                        ? "◐ Dev"
-                        : "○ Archived"}
-                  </span>
-                )}
+                  {/* Status badge */}
+                  {project.status && (
+                    <span
+                      class={`absolute top-4 right-4 px-3 py-1 text-xs font-semibold rounded-full backdrop-blur-md ${
+                        project.status === "production"
+                          ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                          : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
+                      }`}
+                    >
+                      {project.status === "production" ? "Live" : "Dev"}
+                    </span>
+                  )}
 
-                {/* Título sobre la imagen */}
-                <div class="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 class="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
-                    {project.name}
-                  </h3>
+                  <div class="absolute bottom-4 left-4 right-4">
+                    <h3 class="text-lg md:text-xl font-bold text-white drop-shadow-md">
+                      {project.name}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Contenido */}
+                <div class="p-6">
+                  <p class="text-text-muted text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
+                    {project.description}
+                  </p>
+
+                  {/* Tecnologías */}
+                  <div class="flex flex-wrap gap-2 mb-2">
+                    {project.technologies.map((tech) => (
+                      <span class="px-2.5 py-1 text-xs font-medium rounded-lg bg-accent/10 text-accent border border-accent/20">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Contenido */}
-              <div class="p-4 md:p-5">
-                <p class="text-text-muted text-sm leading-relaxed mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                {/* Tecnologías */}
-                <div class="flex flex-wrap gap-1.5 mb-4">
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span class="px-2 py-0.5 text-xs font-medium rounded bg-accent/10 text-accent">
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span class="px-2 py-0.5 text-xs font-medium rounded bg-base-dark/50 text-text-muted">
-                      +{project.technologies.length - 3}
-                    </span>
-                  )}
-                </div>
-
-                {/* Acciones */}
-                <div class="flex items-center gap-2">
+              {/* Acciones */}
+              <div class="p-6 pt-0">
+                <div class="flex items-center gap-3 pt-4 border-t border-white/5">
                   {project.githubUrl && (
                     <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-base-dark/50 text-text-base hover:bg-base-dark hover:text-accent transition-all text-sm font-medium"
+                      class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-base-dark/60 text-text-base hover:bg-base-dark hover:text-accent transition-all text-xs font-semibold flex-1 border border-white/10"
                     >
                       <Icon name="github" class="w-4 h-4" />
                       <span>Código</span>
@@ -145,22 +120,12 @@ import Icon from "./Icon.astro";
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="demo-btn flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all text-sm font-medium"
+                      class="demo-btn flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl transition-all text-xs font-semibold flex-1 shadow-md"
                     >
-                      <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
-                      Ver Demo
+                      <span>Ver Demo</span>
                     </a>
                   )}
                 </div>
@@ -175,7 +140,7 @@ import Icon from "./Icon.astro";
         {
           projects.map((_, index) => (
             <button
-              class="carousel-dot w-2 h-2 rounded-full bg-text-muted/30 hover:bg-accent/50 transition-all"
+              class="carousel-dot w-2.5 h-2.5 rounded-full bg-text-muted/30 hover:bg-accent/60 transition-all"
               data-index={index}
               aria-label={`Ir al proyecto ${index + 1}`}
             />
@@ -183,39 +148,22 @@ import Icon from "./Icon.astro";
         }
       </div>
     </div>
-
-    <p class="text-text-muted text-center p-6 max-w-2xl mx-auto text-sm">
-      Todos mis proyectos están desplegados en mi servidor casero 🖥️
-    </p>
   </div>
 </section>
 
 <style>
-  .project-card {
-    transition:
-      transform 0.4s ease,
-      box-shadow 0.4s ease;
-  }
-
-  .project-card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 20px 40px -15px rgba(0, 0, 0, 0.3),
-      0 0 30px -10px var(--accent-color);
-  }
-
   .demo-btn {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 70%, black));
     color: #ffffff !important;
   }
 
   .demo-btn:hover {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    filter: brightness(1.1);
   }
 
-  .line-clamp-2 {
+  .line-clamp-3 {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -231,7 +179,7 @@ import Icon from "./Icon.astro";
 
   .carousel-dot.active {
     background-color: var(--accent-color);
-    width: 1.5rem;
+    width: 2rem;
   }
 </style>
 
@@ -241,16 +189,11 @@ import Icon from "./Icon.astro";
   const nextBtn = document.getElementById("next-btn");
   const dots = document.querySelectorAll(".carousel-dot");
 
-  let autoScrollInterval: ReturnType<typeof setInterval> | null = null;
-  let isUserInteracting = false;
-
-  // Función para obtener el ancho de scroll de una card
   function getScrollAmount() {
-    const card = carousel?.querySelector(".project-card") as HTMLElement;
-    return card ? card.offsetWidth + 24 : 400; // 24 = gap
+    const card = carousel?.querySelector(".card") as HTMLElement;
+    return card ? card.offsetWidth + 24 : 420;
   }
 
-  // Función para actualizar los dots
   function updateDots() {
     if (!carousel) return;
     const scrollLeft = carousel.scrollLeft;
@@ -262,63 +205,28 @@ import Icon from "./Icon.astro";
     });
   }
 
-  // Scroll a una posición específica
   function scrollToIndex(index: number) {
     if (!carousel) return;
     const scrollAmount = getScrollAmount();
     carousel.scrollTo({ left: index * scrollAmount, behavior: "smooth" });
   }
 
-  // Botones de navegación
   prevBtn?.addEventListener("click", () => {
     if (!carousel) return;
     carousel.scrollBy({ left: -getScrollAmount(), behavior: "smooth" });
-    pauseAutoScroll();
   });
 
   nextBtn?.addEventListener("click", () => {
     if (!carousel) return;
     carousel.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
-    pauseAutoScroll();
   });
 
-  // Dots de navegación
   dots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
       scrollToIndex(index);
-      pauseAutoScroll();
     });
   });
 
-  // Actualizar dots al hacer scroll
   carousel?.addEventListener("scroll", updateDots);
-
-  // Auto-scroll
-  function startAutoScroll() {
-    if (autoScrollInterval) return;
-    autoScrollInterval = setInterval(() => {
-      if (!carousel || isUserInteracting) return;
-      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-      if (carousel.scrollLeft >= maxScroll - 10) {
-        carousel.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        carousel.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
-      }
-    }, 5000); // Cada 5 segundos
-  }
-
-  function pauseAutoScroll() {
-    isUserInteracting = true;
-    setTimeout(() => {
-      isUserInteracting = false;
-    }, 10000); // Resume after 10s of no interaction
-  }
-
-  // Pausar auto-scroll cuando el usuario interactúa
-  carousel?.addEventListener("touchstart", pauseAutoScroll);
-  carousel?.addEventListener("mousedown", pauseAutoScroll);
-
-  // Inicializar
   updateDots();
-  startAutoScroll();
 </script>

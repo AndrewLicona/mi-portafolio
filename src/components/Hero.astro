@@ -5,26 +5,26 @@ import { redes } from "../data/redes.js";
 
 <section
   id="inicio"
-  class="bg-gradient-mesh min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 relative overflow-hidden"
+  class="bg-gradient-mesh min-h-screen h-screen flex flex-col justify-center items-center text-center px-4 md:px-6 relative overflow-hidden snap-start pt-20"
 >
-  <div class="fade-in max-w-5xl">
-    <h1
-      class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-text-strong p-5"
-    >
-      Hola, soy <span class="text-accent">Andrew Licona</span>
+  <div class="fade-in max-w-4xl mx-auto z-10">
+    <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-text-strong tracking-tight leading-tight">
+      Hola, soy <br class="sm:hidden" /><span class="text-accent">Andrew Licona</span>
     </h1>
-    <p
-      class="text-lg md:text-xl lg:text-2xl text-text-muted max-w-3xl mx-auto mb-10 leading-relaxed"
-    >
-      Ingeniero de software especializado en crear aplicaciones web modernas,
-      funcionales y escalables. Transformo ideas en soluciones digitales
-      elegantes.
+
+    <p class="text-base sm:text-lg md:text-xl text-text-muted max-w-2xl mx-auto mb-8 leading-relaxed px-2">
+      Ingeniero de Software y Administrador de Infraestructura. Construyo soluciones web robustas, escalables y de alto rendimiento.
     </p>
 
-    <div class="flex flex-wrap gap-4 justify-center">
-      <a href="/cv.pdf" class="btn btn-primary">
-        <Icon name="cv" class="w-5 h-5" />
-        Ver CV
+    <div class="flex flex-wrap gap-3 sm:gap-4 justify-center items-center">
+      <a href="#proyectos" class="btn btn-primary shadow-xl text-sm sm:text-base">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+        Ver Proyectos
+      </a>
+      <a href="#contacto" class="btn btn-outline text-sm sm:text-base">
+        Contáctame
       </a>
       {
         redes.map((red) => (
@@ -32,10 +32,10 @@ import { redes } from "../data/redes.js";
             href={red.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-outline"
+            class="btn btn-outline p-3 rounded-full"
+            aria-label={red.name}
           >
             <Icon name={red.icon} class="w-5 h-5" />
-            {red.name}
           </a>
         ))
       }
@@ -45,20 +45,12 @@ import { redes } from "../data/redes.js";
   <!-- Indicador de scroll -->
   <a
     href="#sobre-mi"
-    class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-50 hover:opacity-100 transition-opacity"
+    class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-text-muted hover:text-accent transition-colors z-10"
     aria-label="Ir a sobre mí"
   >
-    <svg
-      class="w-6 h-6 text-accent"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    <span class="text-[11px] font-medium tracking-wider uppercase">Explorar</span>
+    <svg class="w-4 h-4 animate-bounce text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
   </a>
 </section>

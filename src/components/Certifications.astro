@@ -1,0 +1,253 @@
+---
+import { certifications } from "../data/certifications";
+import { Image } from "astro:assets";
+---
+
+<section
+  id="certificaciones"
+  class="bg-gradient-linear min-h-screen h-screen flex flex-col justify-center px-4 md:px-8 relative overflow-hidden snap-start"
+>
+  <div class="max-w-7xl mx-auto w-full py-10">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-5xl font-extrabold mb-2 text-accent tracking-tight">
+        Certificaciones
+      </h2>
+      <p class="text-text-muted max-w-xl mx-auto text-sm md:text-base">
+        Haz clic en cualquier certificado para ver la información completa
+      </p>
+    </div>
+
+    <!-- Carrusel Horizontal Container -->
+    <div class="relative max-w-6xl mx-auto">
+      <!-- Botones de navegación horizontal -->
+      <button
+        id="cert-prev"
+        class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-base-light/80 backdrop-blur-xl border border-white/20 items-center justify-center text-text-base hover:text-accent hover:border-accent shadow-2xl transition-all hover:scale-110"
+        aria-label="Anterior certificación"
+      >
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+
+      <button
+        id="cert-next"
+        class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-base-light/80 backdrop-blur-xl border border-white/20 items-center justify-center text-text-base hover:text-accent hover:border-accent shadow-2xl transition-all hover:scale-110"
+        aria-label="Siguiente certificación"
+      >
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+
+      <!-- Carrusel scrollable -->
+      <div
+        id="certifications-carousel"
+        class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 px-4 scrollbar-hide items-stretch"
+      >
+        {
+          certifications.map((cert) => {
+            const imgSrc = cert.badgeHtml
+              ? cert.badgeHtml.match(/src="([^"]+)"/)?.[1] || ''
+              : cert.imageUrl?.src || '';
+
+            return (
+              <article
+                class="cert-card flex-shrink-0 w-[85vw] md:w-[420px] aspect-[16/9] snap-center card group relative overflow-hidden rounded-2xl bg-base-light/80 backdrop-blur-xl border border-white/10 hover:border-accent/50 transition-all duration-500 shadow-2xl cursor-pointer p-0 flex items-center justify-center"
+                data-title={cert.name}
+                data-issuer={cert.issuer}
+                data-date={new Date(cert.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+                data-id={cert.credentialId || 'N/A'}
+                data-url={cert.url}
+                data-img={imgSrc}
+              >
+                <!-- La imagen del certificado ocupa todo el espacio de la card 16:9 -->
+                <div class="w-full h-full relative overflow-hidden bg-base-dark">
+                  {cert.badgeHtml ? (
+                    <div set:html={cert.badgeHtml} class="w-full h-full flex items-center justify-center object-cover" />
+                  ) : cert.imageUrl ? (
+                    <Image
+                      src={cert.imageUrl}
+                      alt={`Certificado ${cert.name}`}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      width={500}
+                      height={280}
+                    />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center text-accent font-bold text-3xl bg-base-dark">
+                      {cert.issuer.charAt(0)}
+                    </div>
+                  )}
+                  <div class="absolute inset-0 bg-gradient-to-t from-base-dark/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                    <span class="text-xs font-semibold text-white bg-accent/80 backdrop-blur-md px-3 py-1 rounded-full">
+                      Ver detalles
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+
+      <!-- Indicadores de puntos -->
+      <div class="flex justify-center gap-2 mt-4">
+        {
+          certifications.map((_, index) => (
+            <button
+              class="cert-dot w-2.5 h-2.5 rounded-full bg-text-muted/30 hover:bg-accent/60 transition-all"
+              data-index={index}
+              aria-label={`Ir a certificación ${index + 1}`}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Lightbox con Información Completa -->
+<div id="cert-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 items-center justify-center p-4 hidden flex">
+  <div class="card bg-base-light rounded-3xl shadow-2xl p-6 md:p-8 max-w-lg w-full border border-white/10 relative text-center transform scale-95 opacity-0 transition-all duration-300" id="cert-modal-content">
+    <button id="close-modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-base-dark/60 text-text-muted hover:text-text-strong flex items-center justify-center border border-white/10 transition-colors z-10">
+      ✕
+    </button>
+
+    <div class="w-full aspect-[16/9] mx-auto mb-6 rounded-2xl bg-base-dark/60 flex items-center justify-center border border-white/10 shadow-inner overflow-hidden">
+      <img id="modal-img" src="" alt="Certificado en grande" class="w-full h-full object-contain drop-shadow-lg" />
+    </div>
+
+    <span id="modal-issuer" class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent mb-2 border border-accent/20"></span>
+    <h3 id="modal-title" class="text-xl md:text-2xl font-extrabold text-text-strong mb-3"></h3>
+
+    <div class="space-y-1.5 text-sm text-text-muted mb-6">
+      <p><strong>Fecha de emisión:</strong> <span id="modal-date"></span></p>
+      <p><strong>ID de Credencial:</strong> <span id="modal-id" class="font-mono text-accent"></span></p>
+    </div>
+
+    <div class="flex gap-3">
+      <button id="modal-close-btn" class="btn btn-outline flex-1">Cerrar</button>
+      <a id="modal-link" href="" target="_blank" rel="noopener noreferrer" class="btn btn-primary flex-1 shadow-lg">Ver Credencial Oficial</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cert-card {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cert-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 0 25px -10px var(--accent-color);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cert-dot.active {
+    background-color: var(--accent-color);
+    width: 2rem;
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById("certifications-carousel");
+  const prevBtn = document.getElementById("cert-prev");
+  const nextBtn = document.getElementById("cert-next");
+  const certDots = document.querySelectorAll(".cert-dot");
+
+  const modal = document.getElementById("cert-modal");
+  const modalContent = document.getElementById("cert-modal-content");
+  const closeModal = document.getElementById("close-modal");
+  const modalCloseBtn = document.getElementById("modal-close-btn");
+
+  const modalImg = document.getElementById("modal-img") as HTMLImageElement;
+  const modalIssuer = document.getElementById("modal-issuer");
+  const modalTitle = document.getElementById("modal-title");
+  const modalDate = document.getElementById("modal-date");
+  const modalId = document.getElementById("modal-id");
+  const modalLink = document.getElementById("modal-link") as HTMLAnchorElement;
+
+  const cards = document.querySelectorAll(".cert-card");
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const title = card.getAttribute("data-title") || "";
+      const issuer = card.getAttribute("data-issuer") || "";
+      const date = card.getAttribute("data-date") || "";
+      const id = card.getAttribute("data-id") || "";
+      const url = card.getAttribute("data-url") || "";
+      const img = card.getAttribute("data-img") || "";
+
+      if (modalImg) modalImg.src = img;
+      if (modalIssuer) modalIssuer.textContent = issuer;
+      if (modalTitle) modalTitle.textContent = title;
+      if (modalDate) modalDate.textContent = date;
+      if (modalId) modalId.textContent = id;
+      if (modalLink) modalLink.href = url;
+
+      modal?.classList.remove("hidden");
+      setTimeout(() => {
+        modalContent?.classList.remove("scale-95", "opacity-0");
+        modalContent?.classList.add("scale-100", "opacity-100");
+      }, 10);
+    });
+  });
+
+  function hideModal() {
+    modalContent?.classList.remove("scale-100", "opacity-100");
+    modalContent?.classList.add("scale-95", "opacity-0");
+    setTimeout(() => {
+      modal?.classList.add("hidden");
+    }, 300);
+  }
+
+  closeModal?.addEventListener("click", hideModal);
+  modalCloseBtn?.addEventListener("click", hideModal);
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) hideModal();
+  });
+
+  function getCardWidth() {
+    const card = carousel?.querySelector(".cert-card") as HTMLElement;
+    return card ? card.offsetWidth + 24 : 400;
+  }
+
+  function updateCertDots() {
+    if (!carousel) return;
+    const scrollLeft = carousel.scrollLeft;
+    const cardWidth = getCardWidth();
+    const activeIndex = Math.round(scrollLeft / cardWidth);
+
+    certDots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === activeIndex);
+    });
+  }
+
+  prevBtn?.addEventListener("click", () => {
+    if (!carousel) return;
+    carousel.scrollBy({ left: -getCardWidth(), behavior: "smooth" });
+  });
+
+  nextBtn?.addEventListener("click", () => {
+    if (!carousel) return;
+    carousel.scrollBy({ left: getCardWidth(), behavior: "smooth" });
+  });
+
+  certDots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      if (!carousel) return;
+      carousel.scrollTo({ left: index * getCardWidth(), behavior: "smooth" });
+    });
+  });
+
+  carousel?.addEventListener("scroll", updateCertDots);
+  updateCertDots();
+</script>
