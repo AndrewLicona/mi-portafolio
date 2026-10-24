@@ -49,4 +49,13 @@ export const certifications: Certification[] = [
     url: 'https://frontendmasters.com',
     credentialId: 'FEM-554433',
   },
+    {
+    id: 'cert-3',
+    name: 'Advanced TypeScript Developer',
+    issuer: 'Frontend Masters',
+    date: '2024-08-10',
+    imageUrl: pageServerImg,
+    url: 'https://frontendmasters.com',
+    credentialId: 'FEM-554433',
+  },
 ];
