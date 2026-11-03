@@ -1,9 +1,23 @@
+# Configuracion de produccion (Dokploy).
+#
+# - NO se declara `container_name`: Dokploy usa el nombre del proyecto
+#   (portafolio-stack-xxxx) y un nombre fijo choca con despliegues anteriores.
+# - NO se publica `ports`: el trafico entra por el dominio -> Traefik -> puerto 80
+#   del contenedor. Publicar el puerto en el host genera conflictos de binding
+#   y esquiva el TLS de Traefik.
+# - El dominio se configura en la pestana "Domains" de Dokploy (servicio:
+#   portafolio, puerto: 80, HTTPS: ON). Dokploy inyecta las etiquetas de
+#   Traefik y la red durante el deploy.
+#
+# Para el flujo manual por SSH usa el override:
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+
 services:
   portafolio:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mi-portafolio
-    ports:
-      - "3003:80"
+    image: mi-portafolio:latest
+    expose:
+      - "80"
     restart: unless-stopped

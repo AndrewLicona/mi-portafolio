@@ -1,0 +1,8 @@
+# Fuerza finales de linea LF en todo el repo.
+# Evita el clasico error de Docker en Windows ("\r" en los comandos del
+# Dockerfile) y que deploy.sh no sea ejecutable en Linux.
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf

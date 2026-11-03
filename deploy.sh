@@ -1,43 +1,30 @@
 #!/bin/bash
 
-# Deploy script for mi-portafolio
-# Run this FROM the project directory: ./deploy.sh
+# Deploy manual de mi-portafolio (fuera de Dokploy)
+# Ejecutar desde la raiz del proyecto: ./deploy.sh
 
 set -e
 
-echo "🚀 Deploying mi-portafolio..."
+echo "🚀 Desplegando mi-portafolio..."
 
-# Get the directory where the script is located
+# Directorio donde vive el script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR" || { echo "❌ Cannot change to script directory"; exit 1; }
+cd "$SCRIPT_DIR" || { echo "❌ No se pudo entrar al directorio del script"; exit 1; }
 
-# Pull latest changes (optional if GitHub is down)
-echo "📥 Attempting to pull latest changes..."
-git pull origin main || echo "⚠️  Git pull failed, continuing with local files..."
+# Actualizar codigo (opcional si GitHub falla)
+echo "📥 Actualizando codigo desde origin/main..."
+git pull origin main || echo "⚠️  git pull fallo, se continua con los archivos locales"
 
-# Check if photo exists
-if [ ! -f "src/assets/fp1.png" ]; then
-    echo "⚠️  WARNING: src/assets/fp1.png not found!"
-    echo "   Make sure to copy your photo before building."
-    echo "   From your PC run:"
-    echo "   scp path/to/fp1.png andrew@server:~/mi-portafolio/src/assets/"
-    read -p "Continue without photo? (y/N): " confirm
-    if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
-        echo "❌ Deployment cancelled"
-        exit 1
-    fi
-fi
+# Reconstruir (docker-compose.local.yml publica el puerto 3003 del host)
+echo "🔄 Reconstruyendo contenedor..."
+docker compose -f docker-compose.yml -f docker-compose.local.yml down --remove-orphans 2>/dev/null || true
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build --remove-orphans
 
-# Stop and rebuild containers
-echo "🔄 Rebuilding container..."
-docker compose down 2>/dev/null || true
-docker compose up -d --build
-
-# Clean up old images
-echo "🧹 Cleaning up old images..."
+# Limpiar imagenes sin usar
+echo "🧹 Limpiando imagenes sin usar..."
 docker image prune -f
 
 echo ""
-echo "✅ Deployment complete!"
-echo "🌐 Portfolio is live at port 3003"
+echo "✅ Despliegue completo"
+echo "🌐 http://<IP_DEL_SERVIDOR>:3003"
 docker ps --filter "name=mi-portafolio" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
