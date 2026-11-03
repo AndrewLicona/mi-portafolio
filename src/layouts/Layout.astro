@@ -13,7 +13,7 @@ const {
   image = "/icon.svg",
 } = Astro.props;
 
-const siteUrl = "https://andrewlamaquina.my";
+const siteUrl = "https://portafolio.miserverlab.xyz";
 const fullImageUrl = new URL(image, siteUrl).href;
 ---
 
@@ -51,8 +51,7 @@ const fullImageUrl = new URL(image, siteUrl).href;
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,7 +63,7 @@ const fullImageUrl = new URL(image, siteUrl).href;
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Andrew Licona",
-        "url": "https://andrewlamaquina.my",
+        "url": "https://portafolio.miserverlab.xyz",
         "jobTitle": "Desarrollador de Software",
         "description": "Estudiante de Ingeniería de Software especializado en desarrollo web fullstack",
         "sameAs": [
