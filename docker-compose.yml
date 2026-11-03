@@ -1,19 +1,30 @@
-# Configuracion de produccion (Dokploy).
+# Configuracion de produccion (Dokploy + Traefik).
 #
 # - NO se declara `container_name`: Dokploy usa el nombre del proyecto
 #   (portafolio-stack-xxxx) y un nombre fijo choca con despliegues anteriores.
 # - NO se publica `ports`: el trafico entra por el dominio -> Traefik -> puerto 80
 #   del contenedor. Publicar el puerto en el host genera conflictos de binding
 #   y esquiva el TLS de Traefik.
-# - El dominio se configura en la pestana "Domains" de Dokploy (servicio:
-#   portafolio, puerto: 80, HTTPS: ON). Dokploy inyecta las etiquetas de
-#   Traefik y la red durante el deploy.
+# - `dokploy-network` es la red que Traefik usa como provider docker: sin ella
+#   Traefik no alcanza el contenedor.
+# - El DNS del contenedor se fija a 1.1.1.1/8.8.8.8 (mismo patron que el stack
+#   de NiddoFlow) para no depender del stub 127.0.0.53 del servidor.
 #
-# Para el flujo manual por SSH usa el override:
-#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+# Si en algun momento agregas este mismo dominio en la pestana "Domains" de
+# Dokploy, Traefik creara un router duplicado: o usas el dominio del compose
+# (esta opcion) o el de la UI, pero no los dos.
+
+x-dns-resolvers: &a1
+  dns:
+    - 1.1.1.1
+    - 8.8.8.8
+  dns_opt:
+    - timeout:2
+    - attempts:3
 
 services:
   portafolio:
+    <<: *a1
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,3 +32,26 @@ services:
     expose:
       - "80"
     restart: unless-stopped
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      # HTTP -> HTTPS
+      - traefik.http.routers.portafolio.rule=Host(`portafolio.miserverlab.xyz`)
+      - traefik.http.routers.portafolio.entrypoints=web
+      - traefik.http.routers.portafolio.middlewares=portafolio-redirect@docker
+      # HTTPS con Let's Encrypt
+      - traefik.http.routers.portafolio-tls.rule=Host(`portafolio.miserverlab.xyz`)
+      - traefik.http.routers.portafolio-tls.entrypoints=websecure
+      - traefik.http.routers.portafolio-tls.tls=true
+      - traefik.http.routers.portafolio-tls.tls.certresolver=letsencrypt
+      - traefik.http.routers.portafolio-tls.service=portafolio-svc
+      # Servicio interno
+      - traefik.http.services.portafolio-svc.loadbalancer.server.port=80
+      # Middleware de redireccion (definido aqui, no depende de Dokploy)
+      - traefik.http.middlewares.portafolio-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.portafolio-redirect.redirectscheme.permanent=true
+
+networks:
+  dokploy-network:
+    external: true
