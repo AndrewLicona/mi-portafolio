@@ -7,24 +7,16 @@
 #   y esquiva el TLS de Traefik.
 # - `dokploy-network` es la red que Traefik usa como provider docker: sin ella
 #   Traefik no alcanza el contenedor.
-# - El DNS del contenedor se fija a 1.1.1.1/8.8.8.8 (mismo patron que el stack
-#   de NiddoFlow) para no depender del stub 127.0.0.53 del servidor.
+# - NO se define `dns:` por servicio: el DNS de Docker es global del daemon
+#   (/etc/docker/daemon.json -> 1.1.1.1 / 8.8.8.8) y aplica a todos los
+#   contenedores del servidor.
 #
 # Si en algun momento agregas este mismo dominio en la pestana "Domains" de
 # Dokploy, Traefik creara un router duplicado: o usas el dominio del compose
 # (esta opcion) o el de la UI, pero no los dos.
 
-x-dns-resolvers: &a1
-  dns:
-    - 1.1.1.1
-    - 8.8.8.8
-  dns_opt:
-    - timeout:2
-    - attempts:3
-
 services:
   portafolio:
-    <<: *a1
     build:
       context: .
       dockerfile: Dockerfile
