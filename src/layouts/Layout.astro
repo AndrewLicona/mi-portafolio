@@ -10,7 +10,7 @@ interface Props {
 const {
   title = "Portafolio | Andrew Licona",
   description = "Desarrollador web especializado en crear aplicaciones modernas, funcionales y escalables. Explora mis proyectos en Next.js, Python, Docker y más.",
-  image = "/icon.svg",
+  image = "/og-image.png",
 } = Astro.props;
 
 const siteUrl = "https://portafolio.miserverlab.xyz";
@@ -50,8 +50,10 @@ const fullImageUrl = new URL(image, siteUrl).href;
     <meta property="twitter:image" content={fullImageUrl} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
