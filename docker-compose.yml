@@ -1,12 +1,13 @@
-# Produccion (Dokploy + Traefik).
+# Produccion: un solo contenedor con nginx sirviendo el sitio estatico.
 #
-# - Sin `container_name`: Dokploy ya usa el nombre del proyecto y un nombre fijo
-#   choca con despliegues anteriores.
-# - `ports: 3003:80` deja acceso directo por IP -> http://<ip-del-servidor>:3003
-# - Las etiquetas de Traefik enrutan el dominio al mismo puerto 80 del contenedor
-#   (HTTPS con Let's Encrypt). No agregues el dominio en la pestana "Domains" de
-#   Dokploy o Traefik creara un router duplicado.
-# - El DNS es global del daemon (/etc/docker/daemon.json), no se define por servicio.
+# - Sin etiquetas de Traefik: el trafico entra directo al nginx del contenedor.
+# - Sin `container_name`: Dokploy ya usa el nombre del proyecto.
+# - Sin `networks`: nada mas en el servidor necesita alcanzar al contenedor.
+# - `ports: 3003:80` deja el sitio en http://<ip-del-servidor>:3003
+#
+# Si en el futuro quieres servirlo por dominio con TLS automatico, se agrega
+# de nuevo la red `dokploy-network` y las etiquetas de Traefik (estan en el
+# historial de git, commit e755e92).
 
 services:
   portafolio:
@@ -17,26 +18,3 @@ services:
     ports:
       - "3003:80"
     restart: unless-stopped
-    networks:
-      - dokploy-network
-    labels:
-      - traefik.enable=true
-      # HTTP -> HTTPS
-      - traefik.http.routers.portafolio.rule=Host(`portafolio.miserverlab.xyz`)
-      - traefik.http.routers.portafolio.entrypoints=web
-      - traefik.http.routers.portafolio.middlewares=portafolio-redirect@docker
-      # HTTPS con Let's Encrypt
-      - traefik.http.routers.portafolio-tls.rule=Host(`portafolio.miserverlab.xyz`)
-      - traefik.http.routers.portafolio-tls.entrypoints=websecure
-      - traefik.http.routers.portafolio-tls.tls=true
-      - traefik.http.routers.portafolio-tls.tls.certresolver=letsencrypt
-      - traefik.http.routers.portafolio-tls.service=portafolio-svc
-      # Servicio interno
-      - traefik.http.services.portafolio-svc.loadbalancer.server.port=80
-      # Middleware de redireccion a HTTPS
-      - traefik.http.middlewares.portafolio-redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.portafolio-redirect.redirectscheme.permanent=true
-
-networks:
-  dokploy-network:
-    external: true
